@@ -38,7 +38,7 @@ class Tag {
 		$tags=array();
 		switch($method) {
 			case 'name':
-				$command="STEP".$data;
+				$command="STEAN".$data;
 				break;
 			case 'guid':
 				$command="STEG".$data;
@@ -50,6 +50,10 @@ class Tag {
 				throw new exception("Bad selection method");
 		}
 		$result=$wpc->query($command);
+		if (!$result && $method=='name') {
+			// Retry with fuzzy search
+			$result=$wpc->query("STFAP".$data);
+		}
 		foreach($result as $r) {
 			$parts=explode(' ',$r);
 			foreach($parts as $part) {
