@@ -25,10 +25,14 @@ class Tag {
 		}
 	}
 
+	public function posts() {
+		return Post::selection("TG",$this->guid);
+	}
+
 	public static function selection($method=null, $data=null) {
 		global $wpc;
 
-		$bad_chars=array("\n","\r");
+		$bad_chars=array("\n","\r"," ");
 		$data=str_replace($bad_chars,'',$data);
 
 		$tags=array();
