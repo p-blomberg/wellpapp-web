@@ -18,6 +18,12 @@ RewriteCond %{REQUEST_URI} !/favicon.ico
 ### ÄNDRA INGET NEDANFÖR DENNA RAD
 
 RewriteRule (.*) index.php/$1
+
+RewriteRule ^thumbs/(\d+)/([0-9a-f])([0-9a-f]{2})([0-9a-f]{29})$ /images/thumbs/$1/$2/$3/$2$3$4 [T=image/jpeg]
+RewriteRule ^images/([0-9a-f])([0-9a-f]{2})([0-9a-f]{29})\.([a-z]{3,4})$ /images/thumbs/200/$1/$2/$1$2$3 [T=image/$4]
+
+
+
 RewriteEngine On
 php_flag magic_quotes_gpc Off
 

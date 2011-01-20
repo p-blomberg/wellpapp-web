@@ -24,6 +24,13 @@ function post_get($string) {
 	}
 	return false;
 }
+function post_get_all() {
+	$all=array();
+	foreach($_POST as $key => $p) {
+		$all[$key]=clean_data($p);
+	}
+	return $all;
+}
 
 function session_get($args) {
 	if(!is_array($args)){

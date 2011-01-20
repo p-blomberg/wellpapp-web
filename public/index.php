@@ -34,6 +34,9 @@ if($main == '' || !file_exists($main)) {
 	</head>
 	<body>
 		<div id="wrapper">
+			<div id="topmenu">
+				<?require "../content/topmenu.php"; ?>
+			</div>
 			<div id="main_inner_wrapper">
 				<?require $main?>
 			</div>

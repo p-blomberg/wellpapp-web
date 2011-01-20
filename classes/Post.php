@@ -6,7 +6,10 @@ class Post {
 
 	public function __construct($md5, $tags, $ext) {
 		$this->md5=$md5;
-		$this->tags=$tags;
+		$this->tags=array();
+		foreach($tags as $t) {
+			$this->tags[]=Tag::from_guid($t);
+		}
 		$this->ext=$ext;
 	}
 
@@ -21,6 +24,19 @@ class Post {
 		}
 	}
 
+	public function add_tag($tag) {
+		global $wpc;
+		$command="TP".$this->md5." T".$tag->guid;
+		$result=$wpc->query($command);
+		var_dump($result);
+		die("Nej");
+	}
+
+	public static function from_md5($md5) {
+		$posts=Post::selection('M', $md5);
+		return $posts[0];
+	}
+
 	public static function selection($method=null, $data=null) {
 		global $wpc;
 
@@ -29,6 +45,9 @@ class Post {
 
 		$tags=array();
 		switch($method) {
+			case 'M':
+				$command="SPM".$data." Fext Fcreated Ftagguid Fwidth Fheight Fscore Fsource";
+				break;
 			case 'TG':
 				$command="SPTG".$data." Fext Fcreated Ftagguid Fwidth Fheight Fscore Fsource";
 				break;
@@ -38,8 +57,8 @@ class Post {
 		$result=$wpc->query($command);
 		foreach($result as $r) {
 			$parts=explode(' ',$r);
+			$tags=array();
 			foreach($parts as $part) {
-				$tags=array();
 				switch($part[0]) {
 					case 'P':
 						$md5=trim(substr($part, 1));
@@ -51,7 +70,7 @@ class Post {
 						$flagtype=substr($part, 1, strpos($part,'=')-1);
 						switch($flagtype) {
 							case 'ext':
-								$ext=strstr($part,'=');
+								$ext=substr(strstr($part,'='),1);
 								break;
 						}
 				}

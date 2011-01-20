@@ -29,6 +29,17 @@ class Tag {
 		return Post::selection("TG",$this->guid);
 	}
 
+	public static function from_guid($guid) {
+		$tags=Tag::selection('guid', $guid);
+		return $tags[0];
+	}
+
+	public static function from_name($name) {
+		$tags=Tag::selection('name', $name);
+		return $tags[0];
+	}
+
+
 	public static function selection($method=null, $data=null) {
 		global $wpc;
 
