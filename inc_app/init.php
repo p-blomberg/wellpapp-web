@@ -25,6 +25,13 @@ function __autoload($class)
 /**
  * Klasser som behöver instantieras till en global.
  */
-$wpc = new wellpappConnection("db_settings", $settings['debug']);
+try {
+	$wpc = new wellpappConnection("db_settings", $settings['debug']);
+} catch (Exception $e) {
+	header("HTTP/1.0 500 Internal Server Error");
+	echo "<h1>Internal error: could not connect to wellpapp server</h1>";
+	echo "<p>Error: ".$e->getMessage()."</p>";
+	die();
+}
 
 ?>

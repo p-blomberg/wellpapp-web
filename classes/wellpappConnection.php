@@ -10,7 +10,7 @@ class wellpappConnection {
 			throw new exception("Failed to create socket");
 		}
 
-		$result=socket_connect($this->sock, $this->host, $this->port);
+		$result=@socket_connect($this->sock, $this->host, $this->port);
 		if($result===false) {
 			throw new exception("Failed to connect to ".$this->host." on port ".$this->port.": ".socket_last_error());
 		}
