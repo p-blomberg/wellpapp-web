@@ -3,6 +3,8 @@ class wellpappConnection {
 	private $do_debug;
 	private $host;
 	private $port;
+	public  $image_prefix;
+	public  $thumb_prefix;
 
 	private function connect() {
 		$this->sock=socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
@@ -31,6 +33,8 @@ class wellpappConnection {
 
 		$this->host=$host;
 		$this->port=$port;
+		$this->image_prefix = $image_prefix;
+		$this->thumb_prefix = $thumb_prefix;
 
 		$this->connect();
 	}
