@@ -28,9 +28,7 @@ function tagname_cmp($a,$b) {
 usort($tags, "tagname_cmp");
 
 foreach($tags as $t) {
-	echo '<li style="font-size: '. intval(100 * ($t->post_count / $max)). 'px;">';
-	echo "<a href=\"/tag/name/".urlencode($t->name)."\">
-			".htmlspecialchars($t->name)."</a></li>\n";
+	echo '<li><a href="/tag/name/'. urlencode($t->name) .'" style="font-size: '. intval(100 * ($t->post_count / $max)) .'px; color: '. $t->color .';">'. htmlspecialchars($t->name) ."</a></li>\n";
 }
 echo "</ul>";
 ?>

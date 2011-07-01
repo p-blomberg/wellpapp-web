@@ -5,6 +5,7 @@ class Tag {
 	private $type;
 	private $post_count;
 	private $weak_post_count;
+	private $color;
 
 	public function __construct($data) {
 		$this->guid=$data['G'];
@@ -12,6 +13,16 @@ class Tag {
 		$this->type=$data['T'];
 		$this->post_count=hexdec($data['P']);
 		$this->weak_post_count=hexdec($data['W']);
+		$this->color=$this->color();
+	}
+
+	private function color() {
+		$chars=substr(md5($this->type,true),0,3);
+		$chars=array($chars[0],$chars[1],$chars[2]);
+		foreach($chars as $key => $char) {
+			$chars[$key]=ord($char) / 1.6;
+		}
+		return sprintf("#%02x%02x%02x", $chars[0], $chars[1], $chars[2]);
 	}
 
 	public function __get($key) {
