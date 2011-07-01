@@ -26,8 +26,8 @@ if(count($tags)>0) {
 		$posts=$tag->posts();
 		foreach($posts as $post) {
 			echo "<input type=\"checkbox\" name=\"".$post->md5."\" />";
-			echo "<a href=\"/image/".$post->md5."\">";
-			echo "<img src=\"/images/".$post->md5.'.'.$post->ext."\" title=\"";
+			echo "<a href=\"". $wpc->image_prefix . $post->md5 .".". $post->ext ."\">";
+			echo "<img src=\"" . $wpc->thumb_prefix . $post->md5 ."\" title=\"";
 			foreach($post->tags as $t) {
 				echo $t->name.' ';
 			}

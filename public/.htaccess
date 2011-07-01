@@ -1,7 +1,10 @@
+RewriteEngine On
+
 ### MAPPAR I PUBLIC SOM SKA GÅ ATT KOMMA ÅT
 
 RewriteCond %{REQUEST_URI} !/gfx
 RewriteCond %{REQUEST_URI} !/images
+RewriteCond %{REQUEST_URI} !/thumbs
 RewriteCond %{REQUEST_URI} !/scripts
 RewriteCond %{REQUEST_URI} !/special
 RewriteCond %{REQUEST_URI} !/documents
@@ -17,14 +20,11 @@ RewriteCond %{REQUEST_URI} !/favicon.ico
 
 ### ÄNDRA INGET NEDANFÖR DENNA RAD
 
-RewriteRule (.*) index.php/$1
+RewriteRule (.*) index.php/$1 [L]
 
-RewriteRule ^thumbs/(\d+)/([0-9a-f])([0-9a-f]{2})([0-9a-f]{29})$ /images/thumbs/$1/$2/$3/$2$3$4 [T=image/jpeg]
-RewriteRule ^images/([0-9a-f])([0-9a-f]{2})([0-9a-f]{29})\.([a-z]{3,4})$ /images/thumbs/200/$1/$2/$1$2$3 [T=image/$4]
+RewriteRule ^thumbs/(\d+)/([0-9a-f])([0-9a-f]{2})([0-9a-f]{29})$         /thumbs/$1/$2/$3/$2$3$4 [L,T=image/jpeg]
+RewriteRule ^images/([0-9a-f])([0-9a-f]{2})([0-9a-f]{29})\.([a-z]{3,4})$ /images/$1/$2/$1$2$3    [L,T=image/$4]
 
-
-
-RewriteEngine On
 php_flag magic_quotes_gpc Off
 
 AddDefaultCharset utf-8
