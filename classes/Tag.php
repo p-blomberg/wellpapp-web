@@ -10,8 +10,8 @@ class Tag {
 		$this->guid=$data['G'];
 		$this->name=$data['N'];
 		$this->type=$data['T'];
-		$this->post_count=$data['P'];
-		$this->weak_post_count=$data['W'];
+		$this->post_count=hexdec($data['P']);
+		$this->weak_post_count=hexdec($data['W']);
 	}
 
 	public function __get($key) {
@@ -40,7 +40,7 @@ class Tag {
 	}
 
 
-	public static function selection($method=null, $data=null) {
+	public static function selection($method=null, $data=null, $order=null, $limit=100) {
 		global $wpc;
 
 		$bad_chars=array("\n","\r"," ");
@@ -58,14 +58,33 @@ class Tag {
 				$command="STEP";
 				break;
 			default:
-				throw new exception("Bad selection method");
+				throw new Exception("Bad selection method");
 		}
+
+		if($order!==null) {
+			if($order=="post_count DESC") {
+				$command.=" O-allpost";
+			} else {
+				die("Not implemented");
+			}
+		}
+
+		if(!is_numeric($limit)) {
+			throw new Exception("Limit must be numeric");
+		}
+		$command.=" R:".dechex($limit);
+
+		//die($command);
+
 		$result=$wpc->query($command);
 		if (!$result && $method=='name') {
 			// Retry with fuzzy search
 			$result=$wpc->query("STFAP".$data);
 		}
 		foreach($result as $r) {
+			if(substr($r,0,1)=="R") {
+				continue;
+			}
 			$parts=explode(' ',$r);
 			foreach($parts as $part) {
 				$res[substr($part, 0, 1)] = trim(substr($part, 1));
@@ -73,8 +92,9 @@ class Tag {
 			$tag=new Tag($res);
 			$tags[]=$tag;
 		}
+
 		return $tags;
 	}
-
 }
+
 ?>
