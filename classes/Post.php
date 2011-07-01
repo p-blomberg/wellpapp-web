@@ -2,13 +2,19 @@
 class Post {
 	private $md5;
 	private $tags;
+	private $weak_tags;
 	private $ext;
 
 	public function __construct($md5, $tags, $ext) {
 		$this->md5=$md5;
 		$this->tags=array();
+		$this->weak_tags=array();
 		foreach($tags as $t) {
-			$this->tags[]=Tag::from_guid($t);
+			if ($t[0] == "~") {
+				$this->weak_tags[]=Tag::from_guid(substr($t, 1));
+			} else {
+				$this->tags[]=Tag::from_guid($t);
+			}
 		}
 		$this->ext=$ext;
 	}
