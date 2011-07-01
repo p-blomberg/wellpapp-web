@@ -1,0 +1,15 @@
+.tagcloud {
+	list-style-type: none;
+	margin: 0; padding: 0;
+}
+.tagcloud li {
+	display: inline;
+	margin-right: 2px;
+	background-color: #fad;
+}
+.tagcloud a {
+	text-decoration: none;
+}
+.tagcloud a:hover {
+	text-decoration: underline;
+}
